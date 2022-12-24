@@ -1,0 +1,6 @@
+#Files from output
+*.out
+*.in
+
+#ignore the folder for i/o
+/files
