@@ -1,101 +1,71 @@
 #include <iostream>
-#include <vector>
-#include <unordered_set>
 #include <fstream>
 
 std::ifstream fin("estearbore.in");
 std::ofstream fout("estearbore.out");
 
-const int N = 1005;
+const int nm = 102;
 
-int n;
+int  n, m, i, j, visited[nm];
 
-std::vector<int> adj[N];
+bool flag = true;
 
-bool visited[N];
+char a[nm][nm];
 
-void dfs(int u) 
+void dfs(int x)
 {
-    visited[u] = true;
-    
-    for (int v : adj[u]) 
+    visited[x] = 1;
+
+    for(int i = 1; i <= n; i ++)
     {
-        if (!visited[v]) 
+        if(a[x][i] == 1 && !visited[i]) 
         {
-            dfs(v);
+            dfs(i);
         }
     }
 }
 
-int main() 
+int main()
 {
     fin >> n;
 
-    int u, v;
-
-    int m = 0;
-
-    while(fin >> u >> v) 
+    while(fin >> i >> j)
     {
-        m ++;
-        
-        if(std::find(adj.begin(), adj.end(), {u, v}) == adj.end())
+        if(!a[i][j])
         {
-            adj[u].push_back(v);
+            m ++;
         }
         
-        if(std::find(adj.begin(), adj.end(), {v, u}) == adj.end())
-        {
-            adj[v].push_back(u);
-        }
+        a[i][j] = a[j][i] = 1;
     }
 
-
-
-    dfs(1);
-
-    bool is_connected = true;
-
-    for (int i = 1; i <= n && is_connected; i++) 
-    {
-        if (!visited[i]) 
-        {
-            is_connected = false;
-        }
-    }
-
-    // Check if the graph has any cycles
-    std::unordered_set<int> st;
-    
-    bool has_cycle = false;
-
-    for (int u = 1; u <= n && !has_cycle; u++) 
-    {
-        for (int v : adj[u]) 
-        {
-            if (st.count(v)) 
-            {
-                has_cycle = true;
-            }
-            st.insert(u);
-        }
-        
-        st.clear();
-        
-        if (has_cycle)
-        {
-            break;
-        }
-    }
-
-    if (is_connected && !has_cycle) 
-    {
-        fout << "DA";
-    } 
-    else 
-    {
+    if(n != m + 1)
+    { 
         fout << "NU";
     }
 
+    else
+    {
+        dfs(1);
+
+        for(i = 2; i <= n; ++i)
+        {
+            if(!visited[i])
+            {
+                flag = false;
+            }
+        }
+        
+        if(flag)
+        {
+            fout << "DA";
+        }
+        
+        else
+        {
+            fout << "NU";
+        }
+    }
+    
     return 0;
 }
