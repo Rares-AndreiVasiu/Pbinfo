@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstring>
 
-
 long long int n;
 char ch;
 
