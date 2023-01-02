@@ -1,6 +1,7 @@
 #Files from output
 *.out
 *.in
+*.json
 
 #ignore the folder for i/o
 /files
